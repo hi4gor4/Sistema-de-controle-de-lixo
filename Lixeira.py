@@ -39,7 +39,7 @@ class Lixeira(object):
         return self.client.subscribe("hiago23rangel@gmail.com/luz2").on_message()
     
     def changeState(self):
-        self.client.publish(self.topico,("{} {} {}".format(self.localizacao, self.capacidade,self.ocupacao  )))
+        self.client.publish(self.topico,("{} {} {}".format(self.localizacao, self.capacidade, self.ocupacao)))
     
     #Metodo para encher a lixeira aleatoriamente com o tempo, Testar tempo para encher e se o espaço dado entre os valores é suficiente
     def encher(self):
