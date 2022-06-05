@@ -52,7 +52,7 @@ class Lixeira:
 
 def main():
     nome = input("Digite o nome do setor")
-    setor = setor(name)
+    setor = setor(nome)
 
 if __name__ == "__main__":
     main()
