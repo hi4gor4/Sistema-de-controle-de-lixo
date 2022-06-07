@@ -10,7 +10,7 @@ import random
 class Lixeira(object):
     capacidade = 0
     ocupacao = 0
-    localizacao =''
+    localizacao = ''
     topico = ''
     client = mqtt.Client()
     
@@ -29,7 +29,7 @@ class Lixeira(object):
         client.subscribe("hiago23rangel@gmail.com/luz1")
 
     def on_message(client, userdata, msg):
-        #print(msg.topic+" -  "+str(msg.payload))
+        print(msg.topic+" -  "+str(msg.payload))
         return msg.payload
 
     def  getTopico(self):
@@ -43,20 +43,20 @@ class Lixeira(object):
     
     #Metodo para encher a lixeira aleatoriamente com o tempo, Testar tempo para encher e se o espaço dado entre os valores é suficiente
     def encher(self):
-        value = random.randint(0, 100000)
+        value = random.randint(0, 1000000000)
         if value >= 500 and value <= 600:
-            if self.ocupacao >= self.capacidade:
+            if self.ocupacao < self.capacidade:
                 self.ocupacao += 10
                 self.changeState()
     
 def main():
-    capacidade = input("Digite a capacidade da lixeira \n")
-    rua = input("Digite a Rua Dessa lixeira")
+    capacidade = int(input("Digite a capacidade da lixeira \n"))
+    rua = input("Digite a rua da lixeira \n")
 
-    Lixeira = Lixeira(capacidade, rua)
+    lixeira = Lixeira(capacidade, rua)
 
     while(True):
-        Lixeira.encher()
+        lixeira.encher()
 
 if __name__ == "__main__":
     main()
