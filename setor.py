@@ -47,7 +47,7 @@ class Setor:
         print(info[0], info[1], info[2] + "\n")
 
     def esvazia(self):
-        resposta = requests(self.ip + ":5000/setor/" + self.name)        
+        resposta = requests("http://" + self.ip + ":5000/setor/" + self.name)        
 
     
     def onConnect(clientMqtt, userdata, flags, rc):

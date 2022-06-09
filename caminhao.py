@@ -18,7 +18,7 @@ class caminhao():
 
     #Criar rota de caminhao
     def readJson(self):
-        resposta = requests.get(self.ip + ":5000/setor/caminhao")
+        resposta = requests.get("http://" + self.ip + ":5000/caminhao")
         self.lixeiras = resposta.json
     
     #Criar rota de caminhao
@@ -29,7 +29,7 @@ class caminhao():
         sleep(5)
         lixeira = self.lixeiras.pop(0)
         lixeira['ocupacao'] = 0
-        resposta = requests.post(self.ip + ":5000/" + lixeira['setor'] + "/esvazia", lixeira)
+        resposta = requests.post("http://" + self.ip + ":5000/" + lixeira['setor'] + "/esvazia", lixeira)
         return resposta.status_code
 
 if __name__ == '__main__':
