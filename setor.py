@@ -4,8 +4,11 @@ from unicodedata import name
 import paho.mqtt.client as mqtt
 from flask import Flask
 import json
+import requests
+from time import sleep
 
 class Setor:
+    ip = ""
     name = ""   
     clientMqtt = mqtt.Client();
     clientMqtt.on_connect = ''
@@ -15,6 +18,7 @@ class Setor:
 
     def __init__(self, name):
         self.name = name
+        #self.lixeiras = [{"nome": name}]
         self.clientMqtt.on_message = self.onMessage
         self.on_connect = self.onConnect
         self.clientMqtt.connect = ("",00,00)
@@ -42,6 +46,9 @@ class Setor:
         self.writeJson()
         print(info[0], info[1], info[2] + "\n")
 
+    def esvazia(self):
+        resposta = requests(self.ip + ":5000/setor/" + self.name)        
+
     
     def onConnect(clientMqtt, userdata, flags, rc):
         clientMqtt.subscribe(name + "/#")
@@ -57,10 +64,10 @@ class Lixeira:
         self.localizacao = localizacao
         pass
 
-def main():
+if __name__ == "__main__":
     nome = input("Digite o nome do setor: \n")
     setor = Setor(nome)
     setor.clientMqtt.loop()
-
-if __name__ == "__main__":
-    main()
+    while(True):
+        setor.esvazia()
+        sleep(1)
