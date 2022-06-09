@@ -14,11 +14,11 @@ class caminhao():
     
     def exibir(self):
         print("Lixeiras: \n")
-        print(self.lixeiras['setor'] + " " self.lixeiras['localizacao'] + ":  " + self.lixeiras['ocupacao'] + "\n")
+        print(self.lixeiras['setor'] + " " + self.lixeiras['localizacao'] + ":  " + self.lixeiras['ocupacao'] + "\n")
 
     #Criar rota de caminhao
     def readJson(self):
-        resposta = requests.get(self.ip + ":5000/setor/a")
+        resposta = requests.get(self.ip + ":5000/setor/caminhao")
         self.lixeiras = resposta.json
     
     #Criar rota de caminhao
@@ -29,16 +29,16 @@ class caminhao():
         sleep(5)
         lixeira = self.lixeiras.pop(0)
         lixeira['ocupacao'] = 0
-        resposta = requests.post(self.ip + "5000/setor/a", lixeira)
+        resposta = requests.post(self.ip + ":5000/" + lixeira['setor'] + "/esvazia", lixeira)
         return resposta.status_code
 
 if __name__ == '__main__':
     ip = input("Digite o ip: \n")
-    caminhao = caminhao()
+    caminhao = caminhao(ip)
     
     while(True):
         caminhao.readJson()
-        caminhao.exibir
+        caminhao.exibir()
         caminhao.esvaziar()
 
     
