@@ -11,7 +11,11 @@ class caminhao():
     def __init__(self, ip):
         self.ip = ip
         print("Caminhao inicializado")
-        
+    
+    def exibir(self):
+        print("Lixeiras: \n")
+        print(self.lixeiras['setor'] + " " self.lixeiras['localizacao'] + ":  " + self.lixeiras['ocupacao'] + "\n")
+
     #Criar rota de caminhao
     def readJson(self):
         resposta = requests.get(self.ip + ":5000/setor/a")
@@ -33,8 +37,10 @@ if __name__ == '__main__':
     caminhao = caminhao()
     
     while(True):
-        print(caminhao.readJson())
+        caminhao.readJson()
+        caminhao.exibir
         caminhao.esvaziar()
+
     
         
 
