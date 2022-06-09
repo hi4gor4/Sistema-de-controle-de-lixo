@@ -7,20 +7,23 @@ from Server import serverApi
 app = serverApi.app
 api = serverApi.api
 lixo = []
-lixeiraVazia = {}
+lixeiraVazia = []
+lixeiraVazia.append( {'setor': 'invalid'})
 class Lixeira(Resource):
     
-    @app.route("/setor/<setor>/esvazia", methods = ['GET'])
+    @app.route("/esvazia/<setor>", methods = ['GET'])
     def getEsvazia(setor):
-        if(lixeiraVazia['Setor'] == setor ):
-            return lixeiraVazia
+        if(lixeiraVazia[0]['setor'] == setor ):
+            return lixeiraVazia[0]
         else:
-            return {}
+           return {}
 
-    @app.route("/setor/<setor>/esvazia", methods = ['POST'])
+    @app.route("/esvazia/<setor>", methods = ['POST'])
     def postEsvazia(setor):
-        lixeiraVazia = request.get_json()
-        return lixeiraVazia
+        entrada = request.get_json()
+        lixeiraVazia[0] ={'setor': setor, 'localizacao': entrada['localizacao'], 'capacidade': entrada['capacidade'], 'ocupacao': entrada['ocupacao']}
+        return '1'
+
     
 
     @app.route("/setor/<setor>", methods =['POST'])
@@ -37,14 +40,16 @@ class Lixeira(Resource):
                         existe = True
             if(not existe):
                 lixo.append( {'setor': setor, 'localizacao': lixeira['localizacao'], 'capacidade': lixeira['capacidade'], 'ocupacao': lixeira['ocupacao']})
+        return "1"
+        
 
-    @app.route("/setor/caminhao", methods = ['GET'])
+    @app.route("/caminhao", methods = ['GET'])
     def caminhaoSaida():
-        lixo.sort(key=lambda x: x.ocupacao,  reverse= True)
+        lixo.sort(key=lambda x: x['ocupacao'],  reverse= True)
         
         if(len(lixo)>=10):
             saida = []
-            for j in range(0, len(lixo)):
+            for j in range(0, 10):
                 saida.append(lixo[j])
             return json.dumps(saida, default= lambda o: o.__dict__)
         else:
