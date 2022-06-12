@@ -19,14 +19,12 @@ client.on_connect = on_connect
 client.on_message = on_message
 
 # Seta um usuário e senha para o Broker, se não tem, não use esta linha
-client.username_pw_set("hiago23rangel@gmail.com", password="2314")
+client.username_pw_set("mqtt", password="2314")
 
 # Conecta no MQTT Broker, no meu caso, o Maquiatto
-client.connect("www.maqiatto.com", 1883, 60)
+client.connect("localhost", 1883, 60)
 
 #client.publish("hiago23rangel@gmail.com/luz1", "Oi, aqui é um teste")
 
 # Inicia o loop
 client.loop()
-
-client.publish("hiago23rangel@gmail.com/luz1", "Oi, aqui é um teste")
