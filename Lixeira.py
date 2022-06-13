@@ -23,6 +23,7 @@ class Lixeira(object):
     capacidade = 0
     ocupacao = 0
     localizacao = ''
+    setor = ''
     
     def __init__(self, capacidade, localizacao):
         self.localizacao = localizacao

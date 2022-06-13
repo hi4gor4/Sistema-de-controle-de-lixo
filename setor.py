@@ -8,6 +8,7 @@ import requests
 from time import sleep
 
 class Setor:
+    myip = "25.81.87.101"
     ip = "25.81.85.89"
     name = ""
     message = ""
@@ -15,7 +16,14 @@ class Setor:
 
     def __init__(self, name):
         self.name = name
-        #self.lixeiras = [{"nome": name}]
+        self.sendMQtt()
+
+    def sendMQtt(self):
+        message = [{'nome' : self.name, 'ip' : self.myip}]
+        resposta = requests.post("http://"+ self.ip + ":5000/setor", json=message)
+        print("http://"+ self.ip + ":5000/setor")
+        if resposta == -1:
+            print("Entrou")
 
     def writeJson(self):
         with open(self.name + ".json", "w") as write_file:
