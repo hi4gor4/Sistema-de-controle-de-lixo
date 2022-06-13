@@ -1,5 +1,6 @@
 
 import json
+from pickle import FALSE
 from flask import Flask, request
 from flask_restful import Api, Resource
 from Server import serverApi
@@ -7,6 +8,7 @@ from Server import serverApi
 app = serverApi.app
 api = serverApi.api
 lixo = []
+setor = []
 lixeiraVazia = []
 lixeiraVazia.append( {'setor': 'invalid'})
 class Lixeira(Resource):
@@ -26,20 +28,20 @@ class Lixeira(Resource):
 
     
 
-    @app.route("/setor/<setor>", methods =['POST'])
-    def getLixeira(setor):
+    @app.route("/lixeira/<setor>", methods =['POST'])
+    def getLixeira(setorlixeira):
         entrada = request.get_json()
         for j in range(0, len(entrada)):
             lixeira = entrada[j]
             existe = False
             for i in range(0, len(lixo)):
                 cl = lixo[i]
-                if (setor  == cl['setor']):
+                if (setorlixeira  == cl['setor']):
                     if(lixeira['localizacao'] == cl['localizacao']):
-                        cl = {'setor': setor, 'localizacao': lixeira['localizacao'], 'capacidade': lixeira['capacidade'], 'ocupacao': lixeira['ocupacao']}
+                        cl = {'setor': setorlixeira, 'localizacao': lixeira['localizacao'], 'capacidade': lixeira['capacidade'], 'ocupacao': lixeira['ocupacao']}
                         existe = True
             if(not existe):
-                lixo.append( {'setor': setor, 'localizacao': lixeira['localizacao'], 'capacidade': lixeira['capacidade'], 'ocupacao': lixeira['ocupacao']})
+                lixo.append( {'setor': setorlixeira, 'localizacao': lixeira['localizacao'], 'capacidade': lixeira['capacidade'], 'ocupacao': lixeira['ocupacao']})
         return "1"
         
 
@@ -56,4 +58,21 @@ class Lixeira(Resource):
             return json.dumps(lixo, default= lambda o: o.__dict__)
 
 
+    @app.route("/setor/<nome>", methods = ['GET'])
+    def getSetor(nome):
+        for s in setor:
+            if(s['nome']== nome ):
+                return json.dumps(s, default= lambda o: o.__dict__) 
+        return '{}'
+        
+    @app.route("/setor", methods =['POST'])
+    def postSetor():
+        entrada = request.get_json()
+        existe = False
+        for s in setor:
+            if (s['nome']== entrada['nome']):
+                s == entrada
+        if(not existe):
+            setor.append(entrada)
+        return "1"
 
