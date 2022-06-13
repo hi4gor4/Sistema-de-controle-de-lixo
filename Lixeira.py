@@ -17,7 +17,6 @@ client = mqtt.Client()
 client.on_connect = on_connect
 client.on_message = on_message
 client.username_pw_set("mqtt", password="2314")
-client.connect("localhost")
 
 class Lixeira(object):
     capacidade = 0
@@ -29,7 +28,12 @@ class Lixeira(object):
         self.localizacao = localizacao
         self.capacidade = capacidade
         client.loop_start()
-    
+
+    def getMqtt(self):
+        resposta = requests.get("http://"+ self.ip +":5000/setor/" + self.setor)
+        client.connect(resposta.json()['ip'])
+
+
     def changeState(self):
         client.publish("a/" + self.localizacao,("{} {} {}".format(self.localizacao, self.capacidade, self.ocupacao)))
     
