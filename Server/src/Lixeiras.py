@@ -48,7 +48,6 @@ class Lixeira(Resource):
     @app.route("/caminhao", methods = ['GET'])
     def caminhaoSaida():
         lixo.sort(key=lambda x: x['ocupacao'],  reverse= True)
-        
         if(len(lixo)>=10):
             saida = []
             for j in range(0, 10):
@@ -60,8 +59,8 @@ class Lixeira(Resource):
 
     @app.route("/setor/<nome>", methods = ['GET'])
     def getSetor(nome):
-        for s in setor:
-            if(s['nome']== nome ):
+        for j in range(0, len(setor)):
+            if(setor[j]['nome']== nome ):
                 return json.dumps(s, default= lambda o: o.__dict__) 
         return '{}'
         
@@ -69,9 +68,9 @@ class Lixeira(Resource):
     def postSetor():
         entrada = request.get_json()
         existe = False
-        for s in setor:
-            if (s['nome']== entrada['nome']):
-                s == entrada
+        for j in range(0, len(setor)):
+            if (setor[j]['nome']== entrada['nome']):
+                setor[j] == entrada
         if(not existe):
             setor.append(entrada)
         return "1"
