@@ -8,7 +8,7 @@ def on_connect(client, userdata, flags, rc):
   
     # O subscribe fica no on_connect pois, caso perca a conexão ele a renova
     # Lembrando que quando usado o #, você está falando que tudo que chegar após a barra do topico, será recebido
-    client.subscribe("hiago23rangel@gmail.com/luz1")
+    client.publish("/setor/amarela", "Funcionou")
     
 # Callback responável por receber uma mensagem publicada no tópico acima
 def on_message(client, userdata, msg):
@@ -22,8 +22,8 @@ client.on_message = on_message
 client.username_pw_set("mqtt", password="2314")
 
 # Conecta no MQTT Broker, no meu caso, o Maquiatto
-client.connect("localhost", 1883, 60)
-
+client.connect("localhost")
+client.publish("/setor/amarela", "conectou")
 #client.publish("hiago23rangel@gmail.com/luz1", "Oi, aqui é um teste")
 
 # Inicia o loop
